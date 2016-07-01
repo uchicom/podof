@@ -25,6 +25,7 @@ import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
+import org.apache.pdfbox.io.MemoryUsageSetting;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDDocumentCatalog;
 import org.apache.pdfbox.pdmodel.common.PDMetadata;
@@ -100,7 +101,7 @@ public class MetaFrame extends JFrame {
 				progressBar.setMaximum(fileList.size() * 2);
 				for (int i = 0; i < fileList.size(); i++) {
 					File file = fileList.get(i);
-					try (PDDocument doc = PDDocument.load(file);){
+					try (PDDocument doc = PDDocument.load(file, MemoryUsageSetting.setupTempFileOnly());){
 
 						doc.getDocumentInformation().setCreator(applicationTextField.getText());
 						doc.getDocumentInformation().setProducer(pdfTransferTextField.getText());
@@ -161,7 +162,7 @@ public class MetaFrame extends JFrame {
 	public void init(String[][] data, JProgressBar progressBar) {
 		for (int i = 0; i < fileList.size(); i++) {
 			File file = fileList.get(i);
-			try (PDDocument doc = PDDocument.load(file);) {
+			try (PDDocument doc = PDDocument.load(file, MemoryUsageSetting.setupTempFileOnly());) {
 
 				data[i][0] = file.getName();
 				data[i][1] = doc.getDocumentInformation().getCreator();
