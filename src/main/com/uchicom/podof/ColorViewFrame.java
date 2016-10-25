@@ -24,6 +24,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
 import org.apache.pdfbox.cos.COSName;
+import org.apache.pdfbox.io.MemoryUsageSetting;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageTree;
@@ -149,7 +150,7 @@ public class ColorViewFrame extends JFrame {
 	public List<Page> check(File file) {
 		List<Page> resultList = new ArrayList<Page>();
 		try (FileInputStream fis = new FileInputStream(file);
-				PDDocument document = PDDocument.load(fis);) {
+				PDDocument document = PDDocument.load(fis, MemoryUsageSetting.setupTempFileOnly());) {
 
 			PDPageTree pageList = document.getDocumentCatalog().getPages();
 			progressBar.setMaximum(progressBar.getMaximum() + pageList.getCount() * 3);//5
@@ -162,10 +163,20 @@ public class ColorViewFrame extends JFrame {
 				resultList.add(page);
 				progressBar.setValue(progressBar.getValue() + 1);//1/5ファイル全部で
 				while (ite.hasNext()) {
-					PDImageXObject image2 = (PDImageXObject) resource.getXObject(ite.next());
-					page.addType(new com.uchicom.podof.Type(image2.getImage().getType()));
+					COSName name = ite.next();
+//					try {
+//						if (resource.isImageXObject(name)) {
+//							System.out.println(resource.getColorSpace(name).getName());
+//							page.addType(new com.uchicom.podof.Type((resource.getColorSpace(name)).getName()));
+//						}
+//					} catch (Exception e) {
+//						e.printStackTrace();
+//					}
+					PDImageXObject image2 = (PDImageXObject) resource.getXObject(name);
+					System.out.println(image2.getColorSpace().getName());
+					page.addType(new com.uchicom.podof.Type(image2.getColorSpace().getName()));
+					System.gc();
 				}
-
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

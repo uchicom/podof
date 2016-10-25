@@ -27,6 +27,7 @@ import javax.swing.TransferHandler;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
+import org.apache.pdfbox.io.MemoryUsageSetting;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPageTree;
 import org.apache.pdfbox.rendering.PDFRenderer;
@@ -163,14 +164,14 @@ public class ViewerMain extends JFrame {
 	public List<Page> check(File file) {
 		List<Page> resultList = new ArrayList<Page>();
 		try (FileInputStream fis = new FileInputStream(file);
-				PDDocument document = PDDocument.load(fis);) {
+				PDDocument document = PDDocument.load(fis, MemoryUsageSetting.setupTempFileOnly());) {
 
 			PDPageTree pageList = document.getPages();
 			progressBar.setMaximum(progressBar.getMaximum() + pageList.getCount() * 3);//5
 			progressBar.setValue(progressBar.getValue() + pageList.getCount());//1/5ファイル読みこみで
 
 			PDFRenderer pdfRenderer = new PDFRenderer(document);
-			for (int i = 0; i < pageList.getCount(); i++) {
+			for (int i = 0; i < 10; i++) {
 				Page page = new Page(i);
 				resultList.add(page);
 				progressBar.setValue(progressBar.getValue() + 1);//1/5ファイル全部で

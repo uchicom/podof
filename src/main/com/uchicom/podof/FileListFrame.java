@@ -25,6 +25,7 @@ import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.TransferHandler;
 
+import com.uchicom.podof.action.ColorViewAction;
 import com.uchicom.podof.action.MetaEditAction;
 
 /**
@@ -56,9 +57,9 @@ public class FileListFrame extends JFrame {
         JMenu menu = new JMenu("編集");
         menu.add(metaEditMenuItem);
         menuBar.add(menu);
-//        menu = new JMenu("表示");
-//        JMenuItem menuItem = new JMenuItem(new ColorViewAction(this));
-//        menu.add(menuItem);
+        menu = new JMenu("表示");
+        JMenuItem menuItem = new JMenuItem(new ColorViewAction(this));
+        menu.add(menuItem);
         menuBar.add(menu);
         setJMenuBar(menuBar);
 		list.setTransferHandler(new TransferHandler() {
