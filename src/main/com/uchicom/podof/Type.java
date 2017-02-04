@@ -1,6 +1,4 @@
-/**
- * (c) 2013 uchicom
- */
+// (c) 2013 uchicom
 package com.uchicom.podof;
 import java.awt.color.ColorSpace;
 
