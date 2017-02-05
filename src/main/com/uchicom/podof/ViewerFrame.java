@@ -34,7 +34,7 @@ import org.apache.pdfbox.rendering.PDFRenderer;
  * @author uchicom: Shigeki Uchiyama
  *
  */
-public class ViewerMain extends JFrame {
+public class ViewerFrame extends JFrame {
 
 	/**
      *
@@ -53,7 +53,7 @@ public class ViewerMain extends JFrame {
 		for (String arg : args) {
 			fileList.add(new File(arg));
 		}
-		ViewerMain main = new ViewerMain(fileList);
+		ViewerFrame main = new ViewerFrame(fileList);
 		main.pack();
 		main.setVisible(true);
 	}
@@ -61,7 +61,7 @@ public class ViewerMain extends JFrame {
 	private DefaultMutableTreeNode node = new DefaultMutableTreeNode("check一覧");
 	private JTree tree;
 
-	public ViewerMain(List<File> fileList) {
+	public ViewerFrame(List<File> fileList) {
 		super("PDFViewer");
 		initComponents();
 
